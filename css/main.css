@@ -19,17 +19,83 @@ main {
     margin: 0 auto;
     display: flex;
     flex-flow: column nowrap;
-    box-sizing: border-box;
 }
 
+/* NOTE - Margins only worked correctly (child stayed positioned correctly relative to parent) on these two children when I used the 'flex' property to establish size (not percentages or hard numeric values):  */
 #current-container {
-    height: 50%;
-    width: 100%;
+    margin: 10px 10px 5px 10px;
+    padding: 5px;
     background: pink;
+    box-sizing: border-box;
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+#today {
+    margin-top: 5px;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.current-card {
+    flex: 1;
+    background: lightblue;
+    outline: 1px black dashed;
+}
+
+#today-container {
+    flex: 1;
+    outline: 1px black solid;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+#icon-tile {
+    flex: 1;
+    background: white;
+}
+
+#today-info {
+    flex: 2;
+    background: peachpuff;
 }
 
 #forecast-container {
-    height: 50%;
-    width: 100%;
+    margin: 5px 10px 10px 10px;
+    padding: 5px;
     background: lightseagreen;
+    flex: 1;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.forecast-card {
+    flex: 1;
+    background: lightblue;
+    outline: 1px black dashed;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.forecast-card > div {
+    margin: 5px;
+}
+
+#oneDayOut {
+    margin: 5px 0 5px 0;
+}
+
+#twoDayOut {
+    margin: 0 0 5px 0;
+}
+
+.date-tile {
+    flex: 1;
+    background-color: red;
+}
+
+.forecast-info {
+    flex: 2;
+    background: blueviolet;
 }
