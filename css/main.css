@@ -1,3 +1,6 @@
+
+/* SECTION Overall Styles */
+
 * {
     padding: 0;
     margin: 0;
@@ -9,6 +12,7 @@ body {
     flex-flow: row nowrap;
     align-items: center;
     justify-content: center;
+    font-family: "Manrope", sans-serif;
 }
 
 main {
@@ -21,11 +25,15 @@ main {
     flex-flow: column nowrap;
 }
 
+
+/* SECTION Current Weather Styles */
+
 /* NOTE - Margins only worked correctly (child stayed positioned correctly relative to parent) on these two children when I used the 'flex' property to establish size (not percentages or hard numeric values):  */
 #current-container {
     margin: 10px 10px 5px 10px;
     padding: 5px;
-    background: pink;
+    /* background: pink; */
+    outline: black dotted 1px;
     box-sizing: border-box;
     flex: 1;
     display: flex;
@@ -40,13 +48,17 @@ main {
 
 .current-card {
     flex: 1;
-    background: lightblue;
-    outline: 1px black dashed;
+    /* background: lightblue; */
+    outline: 1px black dotted;
+}
+
+.current-card h1 {
+    margin-left: 5px;
 }
 
 #today-container {
     flex: 1;
-    outline: 1px black solid;
+    outline: 1px black dotted;
     display: flex;
     flex-flow: row nowrap;
 }
@@ -56,6 +68,7 @@ main {
     flex-flow: column nowrap;
     align-items: center;
     justify-content: space-evenly;
+    outline: 1px dotted;
 }
 
 #tempCircleOuter {
@@ -77,7 +90,7 @@ main {
     width: 160px;
     text-align: center;
     line-height: 160px;
-    font-size: 4rem;
+    font-size: 3rem;
 }
 
 #icon-tile {
@@ -85,24 +98,55 @@ main {
     background: white;
 }
 
+#degreeF {
+    font-size: 1.5rem;
+    vertical-align: top;
+}
+
 #today-info {
     flex: 2;
-    background: peachpuff;
+    /* background: peachpuff; */
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-around;
+    text-align: center;
 }
+
+#today-info img {
+    height: 100px;
+}
+
+#today-condition {
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+
+
+
+
+/* SECTION Forecast Container Styles */
 
 #forecast-container {
     margin: 5px 10px 10px 10px;
     padding: 5px;
-    background: lightseagreen;
+    /* background: lightseagreen; */
+    outline: 1px black dotted;
     flex: 1;
     display: flex;
     flex-flow: column nowrap;
 }
 
+#forecast-container h1 {
+    margin-left: 5px;
+}
+
 .forecast-card {
     flex: 1;
-    background: lightblue;
-    outline: 1px black dashed;
+    /* background: lightblue; */
+    outline: 1px black dotted;
     display: flex;
     flex-flow: row nowrap;
 }
@@ -121,12 +165,38 @@ main {
 
 .date-tile {
     flex: 1;
-    background-color: red;
+    /* background-color: red; */
+    outline: 1px black dotted;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;;
+}
+
+.icon-tile {
+    flex: 1;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-evenly;
+    outline: 1px black dotted;
+    text-transform: uppercase;
+    font-size: 1.2rem;
+}
+
+.icon-tile h5 {
+    text-align: center;
 }
 
 .forecast-info {
     flex: 2;
-    background: blueviolet;
+    /* background: blueviolet; */
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+    outline: 1px black dotted;
+    text-align: center;
 }
 
 #forecast-container img {

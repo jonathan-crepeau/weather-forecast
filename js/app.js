@@ -4,7 +4,7 @@ async function requestWeather() {
     const httpRequest = await $.ajax({
         method: "GET",
         // url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sananselmo,ca?include=days,current,fcst&key=3D6EZXHLSVULQWKNPQNZGMSNW",
-        url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sananselmo,ca?key=3D6EZXHLSVULQWKNPQNZGMSNW",
+        url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/chicago,il?key=3D6EZXHLSVULQWKNPQNZGMSNW",
         success: function(response){
             console.log(response);
             postCurrentWeather(response);
@@ -35,14 +35,24 @@ function postCurrentWeather(obj) {
 
     const iconTile = $('<div id="icon-tile"></div>');
     // $(iconTile).html(`<h2>${obj.currentConditions.conditions}</h2>\n<img src="icons/${obj.currentConditions.icon}.svg"></img>`);
-    $(iconTile).html(`<h2>${obj.currentConditions.conditions}</h2>\n
+    $(iconTile).html(`<p id="today-condition">${obj.currentConditions.conditions}</p>\n
     <div id="tempCircleOuter">
-    <div id="tempCircleInner">${obj.currentConditions.temp}</div>
+    <div id="tempCircleInner">${obj.currentConditions.temp}<span id="degreeF">&#176;F</span></div>
     </div>`);
     $(todayContainer).append(iconTile);
 
     const todayInfo = $('<div id="today-info"></div>');
-    $(todayInfo).html(`<p>Current Temparature: ${obj.currentConditions.temp}</p>\n<p>Feels Like: ${obj.currentConditions.feelslike}</p>`);
+    var d = new Date(0);
+    ;
+    $(todayInfo).html(`
+        <p>${obj.currentConditions.datetime}</p>\n
+        <p>Feels Like: ${obj.currentConditions.feelslike}&#176;F</p>\n
+        <p>Humidity: ${obj.currentConditions.humidity} %</p>\n
+        <p>Dew Point: ${obj.currentConditions.dew} F</p>\n
+        <img src="icons/${obj.currentConditions.icon}.svg"></img>
+        <p>${obj.description}</p>
+        
+     `);
     $(todayContainer).append(todayInfo);
 }
 
@@ -60,13 +70,18 @@ function postForecast(obj) {
         $(dateTile).html(dayOfWeek);
         $(forecastCard).append(dateTile);
 
-        const iconTile = $('<div id="icon-tile"></div>');
+        const iconTile = $('<div class="icon-tile"></div>');
         const iconTitleContent = $(`<h5>${obj.days[i].conditions}</h5>\n<img src="icons/${obj.days[i].icon}.svg"></img>`)
         $(iconTile).html(iconTitleContent);
         $(forecastCard).append(iconTile);
 
         const forecastInfo = $(`<div class="forecast-info"></div>`);
-        const forecastInfoContent = $(`<p>High <strong>${obj.days[i].tempmax}&#176;</strong> // Low <strong>${obj.days[i].tempmin}&#176;</strong></p>`);
+        const forecastInfoContent = $(`
+            <p>High <strong>${obj.days[i].tempmax}&#176;</strong> // Low <strong>${obj.days[i].tempmin}&#176;</strong></p>\n
+  
+            <p>${obj.days[i].precipprob}% Precipitation</p>
+            <p>${obj.days[i].description}</p>
+        `);
         $(forecastInfo).html(forecastInfoContent);
         $(forecastCard).append(forecastInfo);
 
