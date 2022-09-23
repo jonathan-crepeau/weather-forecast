@@ -52,6 +52,35 @@ main {
 }
 
 #icon-tile {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#tempCircleOuter {
+    background: linear-gradient(#FB5608, #A30000);
+    border-radius: 50%;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#tempCircleInner {
+    background: #fff;
+    border-radius: 50%;
+    color: black;
+    height: 160px;
+    width: 160px;
+    text-align: center;
+    line-height: 160px;
+    font-size: 4rem;
+}
+
+#icon-tile {
     flex: 1;
     background: white;
 }
@@ -100,6 +129,6 @@ main {
     background: blueviolet;
 }
 
-img {
-    height: 75px;
+#forecast-container img {
+    height: 60px;
 }

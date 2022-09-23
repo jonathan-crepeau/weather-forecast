@@ -34,11 +34,15 @@ function postCurrentWeather(obj) {
     $(todaysWeatherCard).append(todayContainer);
 
     const iconTile = $('<div id="icon-tile"></div>');
-    $(iconTile).html(`<h5>Condition</h5>\n<img src="icons/${obj.currentConditions.icon}.svg"></img>`);
+    // $(iconTile).html(`<h2>${obj.currentConditions.conditions}</h2>\n<img src="icons/${obj.currentConditions.icon}.svg"></img>`);
+    $(iconTile).html(`<h2>${obj.currentConditions.conditions}</h2>\n
+    <div id="tempCircleOuter">
+    <div id="tempCircleInner">${obj.currentConditions.temp}</div>
+    </div>`);
     $(todayContainer).append(iconTile);
 
     const todayInfo = $('<div id="today-info"></div>');
-    $(todayInfo).html(`<p>${obj.currentConditions.temp}</p>\n<p>${obj.currentConditions.feelslike}</p>`);
+    $(todayInfo).html(`<p>Current Temparature: ${obj.currentConditions.temp}</p>\n<p>Feels Like: ${obj.currentConditions.feelslike}</p>`);
     $(todayContainer).append(todayInfo);
 }
 
