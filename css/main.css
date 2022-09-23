@@ -16,8 +16,9 @@ body {
 }
 
 main {
-    /* background: lightsteelblue; */
-    outline: 1px black solid;
+    background: #fff;
+    outline: 4px black solid;
+    border-radius: 3px;
     width: 600px;
     height: 800px;
     margin: 0 auto;
@@ -25,6 +26,9 @@ main {
     flex-flow: column nowrap;
 }
 
+.verySans {
+    font-family: 'Kanit', sans-serif;
+}
 
 /* SECTION Current Weather Styles */
 
@@ -33,7 +37,7 @@ main {
     margin: 10px 10px 5px 10px;
     padding: 5px;
     /* background: pink; */
-    outline: black dotted 1px;
+    /* outline: black dotted 1px; */
     box-sizing: border-box;
     flex: 1;
     display: flex;
@@ -49,16 +53,22 @@ main {
 .current-card {
     flex: 1;
     /* background: lightblue; */
-    outline: 1px black dotted;
+    /* outline: 1px black dotted; */
 }
 
 .current-card h1 {
-    margin-left: 5px;
+    border-top-left-radius: 15px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    background: linear-gradient(90deg, #A8E4FF 55%, #219ebc)
 }
 
 #today-container {
     flex: 1;
-    outline: 1px black dotted;
+    outline: 2px #023047 solid;
+    border-radius: 15px;
+    margin-top: 5px;
+    padding: 5px;
     display: flex;
     flex-flow: row nowrap;
 }
@@ -68,7 +78,6 @@ main {
     flex-flow: column nowrap;
     align-items: center;
     justify-content: space-evenly;
-    outline: 1px dotted;
 }
 
 #tempCircleOuter {
@@ -91,11 +100,6 @@ main {
     text-align: center;
     line-height: 160px;
     font-size: 3rem;
-}
-
-#icon-tile {
-    flex: 1;
-    background: white;
 }
 
 #degreeF {
@@ -133,40 +137,38 @@ main {
     margin: 5px 10px 10px 10px;
     padding: 5px;
     /* background: lightseagreen; */
-    outline: 1px black dotted;
+    /* outline: 1px red dotted; */
     flex: 1;
     display: flex;
     flex-flow: column nowrap;
 }
 
 #forecast-container h1 {
-    margin-left: 5px;
+    border-top-left-radius: 15px;
+    border-bottom: 1px solid black;
+    border-top: 1px solid black;
+    background: linear-gradient(90deg, #A8E4FF 55%, #219ebc)
 }
 
 .forecast-card {
     flex: 1;
     /* background: lightblue; */
-    outline: 1px black dotted;
+    outline: 2px #023047 solid;
     display: flex;
     flex-flow: row nowrap;
+    margin: 5px;
+    border-radius: 15px;
 }
 
 .forecast-card > div {
     margin: 5px;
-}
-
-#oneDayOut {
-    margin: 5px 0 5px 0;
-}
-
-#twoDayOut {
-    margin: 0 0 5px 0;
+    font-size: 0.9rem;
 }
 
 .date-tile {
     flex: 1;
     /* background-color: red; */
-    outline: 1px black dotted;
+    /* outline: 1px black dotted; */
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
@@ -174,18 +176,15 @@ main {
 }
 
 .icon-tile {
-    flex: 1;
+    flex: 2;
     display: flex;
     flex-flow: column;
     align-items: center;
     justify-content: space-evenly;
-    outline: 1px black dotted;
+    /* outline: 1px black dotted; */
     text-transform: uppercase;
-    font-size: 1.2rem;
-}
-
-.icon-tile h5 {
     text-align: center;
+    font-size: 0.8rem;
 }
 
 .forecast-info {
@@ -195,7 +194,7 @@ main {
     flex-flow: column nowrap;
     align-items: center;
     justify-content: center;
-    outline: 1px black dotted;
+    /* outline: 1px black dotted; */
     text-align: center;
 }
 
