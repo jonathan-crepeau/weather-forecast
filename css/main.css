@@ -4,7 +4,7 @@
 }
 
 body {
-    height: 100vh;
+    height: 150vh;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
@@ -98,4 +98,8 @@ main {
 .forecast-info {
     flex: 2;
     background: blueviolet;
+}
+
+img {
+    height: 75px;
 }
