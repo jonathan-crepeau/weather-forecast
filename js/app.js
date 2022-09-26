@@ -123,11 +123,11 @@ function dayOfWeek(epochNum, timeZone) {
 }
 
 $(document).submit('#search-form', () => {
-    console.log('submitted');
     const input = document.getElementById('search-bar')
-    console.log(input.value);
     searchedLocation = input.value;
-    $('#search-bar').val('')
+    $('#current-container').empty();
+    $('#forecast-container').empty();
+    requestWeather();
     return false;
 })
 

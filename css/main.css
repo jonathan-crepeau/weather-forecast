@@ -7,15 +7,14 @@
 }
 
 body {
-    height: 150vh;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
+    height: 100vh;
     font-family: "Manrope", sans-serif;
 }
 
 main {
+    position: absolute;
+    top: 20px;
+    left: 20px;
     background: #fff;
     outline: 4px black solid;
     border-radius: 3px;
@@ -188,7 +187,7 @@ main {
 }
 
 .forecast-info {
-    flex: 2;
+    flex: 3;
     /* background: blueviolet; */
     display: flex;
     flex-flow: column nowrap;
