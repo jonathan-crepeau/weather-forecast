@@ -4,7 +4,7 @@ async function requestWeather() {
     const httpRequest = await $.ajax({
         method: "GET",
         // url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sananselmo,ca?include=days,current,fcst&key=3D6EZXHLSVULQWKNPQNZGMSNW",
-        url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/tokyo,japan?key=3D6EZXHLSVULQWKNPQNZGMSNW",
+        url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/exeter,nh?key=3D6EZXHLSVULQWKNPQNZGMSNW",
         success: function(response){
             console.log(response);
             postCurrentWeather(response);
@@ -21,7 +21,7 @@ function postCurrentWeather(obj) {
     $(currentWeather).append(currentLocation);
 
     const latAndLong = $('<p></p>');
-    $(latAndLong).html(`${obj.latitude.toFixed(2)} &#176;N, ${obj.longitude.toFixed(2)} &#176;W`);
+    $(latAndLong).html(`<p>${obj.latitude.toFixed(2)} &#176;N, ${obj.longitude.toFixed(2)} &#176;W</p>`);
     $(currentWeather).append(latAndLong);
 
     const todaysWeatherCard = $(`<div id="today" class="current-card"></div`);
@@ -45,10 +45,10 @@ function postCurrentWeather(obj) {
     var d = new Date(0);
     ;
     $(todayInfo).html(`
-        <p>${obj.currentConditions.datetime}</p>\n
+        <p>${getTheDate(obj.currentConditions.datetimeEpoch, obj.timezone, 'time')}</p>\n
+        <p>High ${obj.days[0].tempmax}&#176; // Low ${obj.days[0].tempmin}&#176;</p>\n
         <p>Feels Like: ${obj.currentConditions.feelslike}&#176;F</p>\n
         <p>Humidity: ${obj.currentConditions.humidity} %</p>\n
-        <p>Dew Point: ${obj.currentConditions.dew} F</p>\n
         <img src="icons/${obj.currentConditions.icon}.svg"></img>
         <p>${obj.description}</p>
         
@@ -67,7 +67,7 @@ function postForecast(obj) {
 
         const dateTile = $('<div class="date-tile"></div>');
         const date = (`
-            <p>${getTheDate(obj.days[i].datetimeEpoch, obj.timezone)}</p>\n
+            <p>${getTheDate(obj.days[i].datetimeEpoch, obj.timezone, 'date')}</p>\n
             <p>${dayOfWeek(obj.days[i].datetimeEpoch, obj.timezone)}</p>
         `);
         $(dateTile).html(date);
@@ -80,7 +80,7 @@ function postForecast(obj) {
 
         const forecastInfo = $(`<div class="forecast-info"></div>`);
         const forecastInfoContent = $(`
-            <p>High <strong>${obj.days[i].tempmax}&#176;</strong> // Low <strong>${obj.days[i].tempmin}&#176;</strong></p>\n
+            <p>High ${obj.days[i].tempmax}&#176; // Low ${obj.days[i].tempmin}&#176;</p>\n
   
             <p>${obj.days[i].precipprob}% Precipitation</p>
             <p>${obj.days[i].description}</p>
@@ -92,15 +92,17 @@ function postForecast(obj) {
     }
 }
 
-function getTheDate(epochNum, timeZone) {
-    const options = { timeZone: `${timeZone}`};
+function getTheDate(epochNum, timeZone, switchControl) {
     const date = new Date(epochNum*1000);
-    // const day = date.getDate();
-    // const month = (date.getMonth() + 1)
-    // return `${month}/${day}`
-
-    const tzDate = new Intl.DateTimeFormat('en-US', options).format(date);
-    return tzDate;
+    if (switchControl === 'date') {
+        const options = { timeZone: `${timeZone}`};
+        const tzDate = new Intl.DateTimeFormat('en-US', options).format(date);
+        return tzDate;
+    } else if (switchControl === 'time') {
+        const options2 = { hour: 'numeric', minute: 'numeric', timeZone: `${timeZone}`};
+        const tzTime = new Intl.DateTimeFormat('en-US', options2).format(date);
+        return tzTime;
+    }
 };
 
 function dayOfWeek(epochNum, timeZone) {
