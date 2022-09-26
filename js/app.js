@@ -1,10 +1,12 @@
 // console.log("Cloudy with a chance of meatballs.");
 
+let searchedLocation = 'SanAnselmo,CA';
+
 async function requestWeather() {
     const httpRequest = await $.ajax({
         method: "GET",
         // url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sananselmo,ca?include=days,current,fcst&key=3D6EZXHLSVULQWKNPQNZGMSNW",
-        url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/exeter,nh?key=3D6EZXHLSVULQWKNPQNZGMSNW",
+        url: `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${searchedLocation}?key=3D6EZXHLSVULQWKNPQNZGMSNW`,
         success: function(response){
             console.log(response);
             postCurrentWeather(response);
@@ -20,9 +22,16 @@ function postCurrentWeather(obj) {
     $(currentLocation).html(obj.resolvedAddress);
     $(currentWeather).append(currentLocation);
 
-    const latAndLong = $('<p></p>');
-    $(latAndLong).html(`<p>${obj.latitude.toFixed(2)} &#176;N, ${obj.longitude.toFixed(2)} &#176;W</p>`);
-    $(currentWeather).append(latAndLong);
+    const searchBar = $(`
+        <form id='search-form'>
+            <input id="search-bar" type="search" placeholder="Search Locations"></input>
+        </form>
+    `)
+    $(currentWeather).append(searchBar);
+
+    // const latAndLong = $('<p></p>');
+    // $(latAndLong).html(`<p>${obj.latitude.toFixed(2)} &#176;N, ${obj.longitude.toFixed(2)} &#176;W</p>`);
+    // $(currentWeather).append(latAndLong);
 
     const todaysWeatherCard = $(`<div id="today" class="current-card"></div`);
     $(currentWeather).append(todaysWeatherCard);
@@ -45,7 +54,7 @@ function postCurrentWeather(obj) {
     var d = new Date(0);
     ;
     $(todayInfo).html(`
-        <p>${getTheDate(obj.currentConditions.datetimeEpoch, obj.timezone, 'time')}</p>\n
+        <p>${currentTime(obj.timezone)}</p>\n
         <p>High ${obj.days[0].tempmax}&#176; // Low ${obj.days[0].tempmin}&#176;</p>\n
         <p>Feels Like: ${obj.currentConditions.feelslike}&#176;F</p>\n
         <p>Humidity: ${obj.currentConditions.humidity} %</p>\n
@@ -67,7 +76,7 @@ function postForecast(obj) {
 
         const dateTile = $('<div class="date-tile"></div>');
         const date = (`
-            <p>${getTheDate(obj.days[i].datetimeEpoch, obj.timezone, 'date')}</p>\n
+            <p>${getTheDate(obj.days[i].datetimeEpoch, obj.timezone)}</p>\n
             <p>${dayOfWeek(obj.days[i].datetimeEpoch, obj.timezone)}</p>
         `);
         $(dateTile).html(date);
@@ -94,16 +103,17 @@ function postForecast(obj) {
 
 function getTheDate(epochNum, timeZone, switchControl) {
     const date = new Date(epochNum*1000);
-    if (switchControl === 'date') {
-        const options = { timeZone: `${timeZone}`};
-        const tzDate = new Intl.DateTimeFormat('en-US', options).format(date);
-        return tzDate;
-    } else if (switchControl === 'time') {
-        const options2 = { hour: 'numeric', minute: 'numeric', timeZone: `${timeZone}`};
-        const tzTime = new Intl.DateTimeFormat('en-US', options2).format(date);
-        return tzTime;
-    }
+    const options = { timeZone: `${timeZone}`};
+    const tzDate = new Intl.DateTimeFormat('en-US', options).format(date);
+    return tzDate;
 };
+
+function currentTime(timeZone) {
+    const date = Date.now();
+    const options = { hour: 'numeric', minute: 'numeric', timeZone: `${timeZone}`};
+    const tzTime = new Intl.DateTimeFormat('en-US', options).format(date);
+    return tzTime;
+}
 
 function dayOfWeek(epochNum, timeZone) {
     const date = new Date(epochNum*1000);
@@ -111,6 +121,15 @@ function dayOfWeek(epochNum, timeZone) {
     const weekday = new Intl.DateTimeFormat('en-US', options).format(date);
     return weekday;
 }
+
+$(document).submit('#search-form', () => {
+    console.log('submitted');
+    const input = document.getElementById('search-bar')
+    console.log(input.value);
+    searchedLocation = input.value;
+    $('#search-bar').val('')
+    return false;
+})
 
 requestWeather(); 
 
