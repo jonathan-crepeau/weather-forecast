@@ -4,10 +4,11 @@ async function requestWeather() {
     const httpRequest = await $.ajax({
         method: "GET",
         // url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sananselmo,ca?include=days,current,fcst&key=3D6EZXHLSVULQWKNPQNZGMSNW",
-        url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/exeter,nh?key=3D6EZXHLSVULQWKNPQNZGMSNW",
+        url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sananselmo,ca?key=3D6EZXHLSVULQWKNPQNZGMSNW",
         success: function(response){
             console.log(response);
             postCurrentWeather(response);
+            testDayOfWeek(response)
             postForecast(response);
         }
     })
@@ -66,11 +67,11 @@ function postForecast(obj) {
         const forecastCard = $('<aside class="forecast-card"></aside>');
 
         const dateTile = $('<div class="date-tile"></div>');
-        const dayOfWeek = (`
-            <p>${obj.days[i].datetime}</p>\n
-            <p>${getTheDate(obj.days[i].datetimeEpoch)}</p>
+        const date = (`
+            <p>${getTheDate(obj.days[i].datetimeEpoch)}</p>\n
+            <p>${dayOfWeek(obj.days[i].datetimeEpoch)}</p>
         `);
-        $(dateTile).html(dayOfWeek);
+        $(dateTile).html(date);
         $(forecastCard).append(dateTile);
 
         const iconTile = $('<div class="icon-tile"></div>');
@@ -97,6 +98,32 @@ function getTheDate(epochNum) {
     const day = date.getDate();
     const month = (date.getMonth() + 1)
     return `${month}/${day}`
+};
+
+function dayOfWeek(epochNum) {
+    const date = new Date(epochNum*1000);
+    const options = { weekday: 'long'};
+    const weekday = new Intl.DateTimeFormat('en-US', options).format(date);
+    return weekday;
 }
 
 requestWeather(); 
+
+function testDayOfWeek(obj) {
+    // for (let i = 0; i < obj.days.length; i++) {
+    //     const date = new Date(obj.days[i].datetimeEpoch);
+    //     const options = {weekday: 'long'};
+    //     console.log(new Intl.DateTimeFormat('en-US', options).format(date));
+    // }
+}
+
+// function getDay() {
+//     const xmas95 = new Date(1662015600*1000);
+//     const options = {weekday: 'long'};
+//     const weekday = new Intl.DateTimeFormat('en-US', options).format(xmas95);
+
+//     // const weekday = xmas95.getDay();
+//     console.log(weekday);
+// }
+
+// getDay();
