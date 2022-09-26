@@ -4,11 +4,10 @@ async function requestWeather() {
     const httpRequest = await $.ajax({
         method: "GET",
         // url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sananselmo,ca?include=days,current,fcst&key=3D6EZXHLSVULQWKNPQNZGMSNW",
-        url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sananselmo,ca?key=3D6EZXHLSVULQWKNPQNZGMSNW",
+        url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/tokyo,japan?key=3D6EZXHLSVULQWKNPQNZGMSNW",
         success: function(response){
             console.log(response);
             postCurrentWeather(response);
-            testDayOfWeek(response)
             postForecast(response);
         }
     })
@@ -68,8 +67,8 @@ function postForecast(obj) {
 
         const dateTile = $('<div class="date-tile"></div>');
         const date = (`
-            <p>${getTheDate(obj.days[i].datetimeEpoch)}</p>\n
-            <p>${dayOfWeek(obj.days[i].datetimeEpoch)}</p>
+            <p>${getTheDate(obj.days[i].datetimeEpoch, obj.timezone)}</p>\n
+            <p>${dayOfWeek(obj.days[i].datetimeEpoch, obj.timezone)}</p>
         `);
         $(dateTile).html(date);
         $(forecastCard).append(dateTile);
@@ -93,37 +92,23 @@ function postForecast(obj) {
     }
 }
 
-function getTheDate(epochNum) {
+function getTheDate(epochNum, timeZone) {
+    const options = { timeZone: `${timeZone}`};
     const date = new Date(epochNum*1000);
-    const day = date.getDate();
-    const month = (date.getMonth() + 1)
-    return `${month}/${day}`
+    // const day = date.getDate();
+    // const month = (date.getMonth() + 1)
+    // return `${month}/${day}`
+
+    const tzDate = new Intl.DateTimeFormat('en-US', options).format(date);
+    return tzDate;
 };
 
-function dayOfWeek(epochNum) {
+function dayOfWeek(epochNum, timeZone) {
     const date = new Date(epochNum*1000);
-    const options = { weekday: 'long'};
+    const options = { weekday: 'short', timeZone: `${timeZone}`};
     const weekday = new Intl.DateTimeFormat('en-US', options).format(date);
     return weekday;
 }
 
 requestWeather(); 
 
-function testDayOfWeek(obj) {
-    // for (let i = 0; i < obj.days.length; i++) {
-    //     const date = new Date(obj.days[i].datetimeEpoch);
-    //     const options = {weekday: 'long'};
-    //     console.log(new Intl.DateTimeFormat('en-US', options).format(date));
-    // }
-}
-
-// function getDay() {
-//     const xmas95 = new Date(1662015600*1000);
-//     const options = {weekday: 'long'};
-//     const weekday = new Intl.DateTimeFormat('en-US', options).format(xmas95);
-
-//     // const weekday = xmas95.getDay();
-//     console.log(weekday);
-// }
-
-// getDay();
