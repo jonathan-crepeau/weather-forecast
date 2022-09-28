@@ -5,7 +5,6 @@ let searchedLocation = 'SanAnselmo,CA';
 async function requestWeather() {
     const httpRequest = await $.ajax({
         method: "GET",
-        // url: "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/sananselmo,ca?include=days,current,fcst&key=3D6EZXHLSVULQWKNPQNZGMSNW",
         url: `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${searchedLocation}?key=3D6EZXHLSVULQWKNPQNZGMSNW`,
         success: function(response){
             console.log(response);
@@ -28,10 +27,6 @@ function postCurrentWeather(obj) {
         </form>
     `)
     $(currentWeather).append(searchBar);
-
-    // const latAndLong = $('<p></p>');
-    // $(latAndLong).html(`<p>${obj.latitude.toFixed(2)} &#176;N, ${obj.longitude.toFixed(2)} &#176;W</p>`);
-    // $(currentWeather).append(latAndLong);
 
     const todaysWeatherCard = $(`<div id="today" class="current-card"></div`);
     $(currentWeather).append(todaysWeatherCard);
@@ -123,7 +118,8 @@ function dayOfWeek(epochNum, timeZone) {
 }
 
 $(document).submit('#search-form', () => {
-    const input = document.getElementById('search-bar')
+    const input = document.getElementById('search-bar');
+    // console.log(trimWhitespace(input.value));
     searchedLocation = input.value;
     $('#current-container').empty();
     $('#forecast-container').empty();
@@ -132,4 +128,3 @@ $(document).submit('#search-form', () => {
 })
 
 requestWeather(); 
-
